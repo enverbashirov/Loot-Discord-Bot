@@ -10,8 +10,12 @@ from musicbot.utils import guild_to_audiocontroller, guild_to_settings
 
 initial_extensions = ['musicbot.commands.music',
                       'musicbot.commands.general', 'musicbot.plugins.button']
-bot = commands.Bot(command_prefix=config.BOT_PREFIX,
-                   pm_help=True, case_insensitive=True)
+
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(intents = intents, command_prefix='.')
 
 
 if __name__ == '__main__':
@@ -33,7 +37,7 @@ if __name__ == '__main__':
 @bot.event
 async def on_ready():
     print(config.STARTUP_MESSAGE)
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game(name="Music, type {}help".format(config.BOT_PREFIX)))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Activity(type=discord.ActivityType.watching, name="@LofiGirl 😍"))
 
     for guild in bot.guilds:
         await register(guild)
@@ -81,4 +85,4 @@ async def register(guild):
                         print(e)
 
 
-bot.run(config.BOT_TOKEN, bot=True, reconnect=True)
+bot.run(config.BOT_TOKEN, reconnect=True)
